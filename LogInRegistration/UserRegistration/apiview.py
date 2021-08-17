@@ -1,7 +1,7 @@
-from UserRegistration.views import Index,LogInAPI,RegisterAPI
+from UserRegistration.views import Index,LogIn,Register
 from kwikapi import API
 
-apis=API()
-apis.register(Index(),'home')
-apis.register(RegisterAPI(),'register')
-apis.register(LogInAPI(),'login')
+user_api=API()
+user_api.register(Index(),'home')
+user_api.register(Register(),'register')
+user_api.register(LogIn(),'login')

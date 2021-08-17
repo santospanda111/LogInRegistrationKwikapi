@@ -1,5 +1,5 @@
 from kwikapi import API
 from note.views import NotesAPI
 
-noteapi=API()
-noteapi.register(NotesAPI(),'crud')
+note_api=API()
+note_api.register(NotesAPI(),'crud')

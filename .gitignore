@@ -129,5 +129,4 @@ dmypy.json
 .pyre/
 __pycache__
 migrations
-venv
-settings.py
+settings
