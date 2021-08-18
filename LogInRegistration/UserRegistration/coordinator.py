@@ -1,21 +1,26 @@
 import pymysql
 from log import get_logger
+from dotenv import dotenv_values
+
+'''.env file configurations'''
+config = dotenv_values('.env')
+
 
 # Logger configuration
 logger = get_logger()
 
 class Coordinator():
 
-    connection = pymysql.connect(host='localhost',
-                        user='san',
-                        password="Santoshp123@",
-                        db='UserRegistration')
+    connection = pymysql.connect(host=config.get('host'),
+                        user=config.get('user'),
+                        password=config.get('password'),
+                        db=config.get('db'))
 
     def __init__(self):
 
         self.cursor= self.connection.cursor()
 
-    def get_data_by_id(self,id):
+    def read_data_by_id(self,id):
         """
             This method is used to read data by id.
             :param request: It accepts id as parameter.
@@ -37,7 +42,7 @@ class Coordinator():
         checked_data= self.cursor.fetchall()
         return checked_data,username
 
-    def post_insert_data(self,first_name,last_name,email,username,password):
+    def insert_user_data(self,first_name,last_name,email,username,password):
         """
             This method is used to insert the data to register the user.
             :param request: It accepts first_name,last_name,email,username and password as parameter.
@@ -50,7 +55,7 @@ class Coordinator():
             self.connection.commit()
         except Exception as e:
             logger.exception(e)
-            print({'message':str(e)})
+            return({'message':str(e)})
         get_id_query= "SELECT id FROM user_data WHERE username=%s"
         self.cursor.execute(get_id_query,username)
         user_id=self.cursor.fetchone()

@@ -15,7 +15,7 @@ class Index(object):
 
 class Register(object):
 
-    def get(self,pk:int)->str:
+    def get(self,pk:int)->dict:
 
         """
             This method is used to read the data from user_data.
@@ -26,7 +26,7 @@ class Register(object):
             id = pk
             if id is None:
                 return('Enter your id to get registered data')
-            user=Coordinator().get_data_by_id(id)
+            user=Coordinator().read_data_by_id(id)
             fields=('id','first_name','last_name','email','username','password')
             user_dict=dict(zip(fields,user))
             user_data=pyjq.all('{first_name,last_name,email,username}', user_dict)
@@ -35,7 +35,7 @@ class Register(object):
             logger.exception(e)
             return({'message':str(e)})
 
-    def post(self,first_name:str,last_name:str,email:str,username:str,password:str)->str:
+    def post(self,first_name:str,last_name:str,email:str,username:str,password:str)->dict:
         """
             This method is used to register new user.
             :param request: It accepts first_name, last_name, email, username and password as parameter with datatypes.
@@ -45,7 +45,7 @@ class Register(object):
             get_data=Coordinator().check_username_present(username)
             if get_data[0][0][0]>=1:
                 return({'message': 'Username is already registered with another user.'})
-            get_inserted_data=Coordinator().post_insert_data(first_name,last_name,email,username,password)
+            get_inserted_data=Coordinator().insert_user_data(first_name,last_name,email,username,password)
             return({'message':"Registration Successful"})
         except ValueError as e:
             logger.exception(e)
@@ -56,7 +56,7 @@ class Register(object):
 
 class LogIn(object):
         
-    def post(self,username:str,password:str)->str:
+    def post(self,username:str,password:str)->dict:
         """
             This method is used for login authentication.
             :param request: It's accept username and password as parameter.

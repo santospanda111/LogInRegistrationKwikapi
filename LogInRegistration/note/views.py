@@ -6,7 +6,7 @@ logger = get_logger()
 
 class Notes(object):
 
-    def get(self, user_id:int)->str:
+    def get(self, user_id:int)->dict:
         """
             This method is used to read the notes according to user.
             :param request: It accepts user_id as parameter with datatypes.
@@ -15,7 +15,7 @@ class Notes(object):
         try:
             if user_id is not None:
                 all_note=[]
-                user=NoteCoordinator().get_note(user_id)
+                user=NoteCoordinator().read_note(user_id)
                 fields=('note_id','title','description','user_id')
                 if len(user)!=0:
                     for note in user:
@@ -31,14 +31,14 @@ class Notes(object):
             logger.exception(e)
             return({"message":str(e)})
 
-    def post(self,user_id:int,title:str,description:str) -> str:
+    def post(self,user_id:int,title:str,description:str) -> dict:
         """
             This method is used to create new notes according to user.
             :param request: It accepts user_id,title and description as parameter with datatypes.
             :return: It returns response that notes successfully created or not.
         """
         try:
-            insert_data=NoteCoordinator().post_note(user_id,title,description)
+            insert_data=NoteCoordinator().insert_note(user_id,title,description)
             if insert_data is True:
                 return({'message':'Notes created successfully'})
         except KeyError as e:
@@ -48,14 +48,14 @@ class Notes(object):
             logger.exception(e)
             return({'message':'something went wrong'})
 
-    def put(self,note_id:int,user_id:int,title:str,description:str)->str:
+    def put(self,note_id:int,user_id:int,title:str,description:str)-> dict:
         """
             This method is used to update notes using note_id.
             :param request: It accepts note_id,user_id,title and description as parameter with datatypes.
             :return: It returns response that notes successfully updated or not.
         """
         try:
-            update_data=NoteCoordinator().put_note(note_id,user_id,title,description)
+            update_data=NoteCoordinator().update_note(note_id,user_id,title,description)
             if update_data is True:
                 return({'message':'Complete Data Updated'})
         except ValueError as e:
@@ -65,7 +65,7 @@ class Notes(object):
             logger.exception(e)
             return({'message':str(e)})
 
-    def delete(self,user_id:int)->str:
+    def delete(self,user_id:int)-> dict:
         """
             This method is used to delete notes using user_id.
             :param request: It accepts user_id as parameter with datatypes.

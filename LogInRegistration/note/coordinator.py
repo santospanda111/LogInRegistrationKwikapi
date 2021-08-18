@@ -10,7 +10,7 @@ class NoteCoordinator():
 
         self.cursor= Coordinator().connection.cursor()
 
-    def get_note(self,user_id):
+    def read_note(self,user_id):
         """
             This method is used to read data by user_id.
             :param request: It accepts user_id as parameter.
@@ -21,7 +21,7 @@ class NoteCoordinator():
         user_note= self.cursor.fetchall()
         return user_note
 
-    def post_note(self,user_id,title,description):
+    def insert_note(self,user_id,title,description):
         """
             This method is used to insert data to create new note.
             :param request: It accepts user_id,title and description as parameter.
@@ -37,7 +37,7 @@ class NoteCoordinator():
             print({'message':str(e)})
         return True
 
-    def put_note(self,note_id,user_id,title,description):
+    def update_note(self,note_id,user_id,title,description):
         """
             This method is used to update note using note_id.
             :param request: It accepts note_id,user_id,title and description as parameter.
